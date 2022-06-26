@@ -21,14 +21,12 @@ class MyView(View):
 class MyViewWithPK(View):
     def get(self, request, pk):
         try:
-            #subject = Subject.objects.get(pk=pk)
-            groups=StudentGroup.objects.filter(subjects__id=pk)
             students=Student.objects.filter(group__subjects__id=pk)
             data=[]
             for student in students:
                 data.append({"name":student.name})
         except Subject.DoesNotExist:
-            subjects_data = {}
+            data = {}
         return JsonResponse({"data":data})
 
     def post(self, request):
